@@ -8,6 +8,8 @@ import "antd/dist/antd.css";
 import { Register } from "./pages/Register/Register";
 
 function App() {
+
+  const user = JSON.parse(localStorage.getItem('currentUser')) || {};
   return (
     <>
       <BrowserRouter>

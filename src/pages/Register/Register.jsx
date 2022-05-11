@@ -1,14 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import Footer from '../../components/layout/Footer'
-import Header from '../../components/layout/header'
+import Header from '../../components/layout/Header'
 import axios from "axios";
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 
 export const Register = () => {
   const {register, handleSubmit} = useForm();
+  const navigate = useNavigate();
   const onSubmit = async(addUserData, event) => {
     try {
       const addUser = await axios.post(`${URL}/user`, addUserData);
@@ -21,7 +23,7 @@ export const Register = () => {
       }
       )
       event.target.reset()
-      window.location.assign(`http://localhost:3000/login`)
+      navigate(`/login`)
     } catch (error) {
       
     }

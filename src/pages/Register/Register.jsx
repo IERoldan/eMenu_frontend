@@ -5,14 +5,16 @@ import Header from '../../components/layout/Header'
 import axios from "axios";
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 const URL = process.env.REACT_APP_URL;
 
 export const Register = () => {
   const {register, handleSubmit} = useForm();
+  const navigate = useNavigate();
   const onSubmit = async(addUserData, event) => {
     try {
       const addUser = await axios.post(`${URL}/user`, addUserData);
-      Swal.fire({
+     await Swal.fire({
         position: 'center',
         icon: 'success',
         title: `${addUser.data.usuarioNuevo.fullname} te has registrado`,
@@ -21,9 +23,16 @@ export const Register = () => {
       }
       )
       event.target.reset()
-      window.location.assign(`http://localhost:3000/login`)
+      navigate(`/login`)
     } catch (error) {
-      
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: `${error}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      event.target.reset()
     }
     }
   return (

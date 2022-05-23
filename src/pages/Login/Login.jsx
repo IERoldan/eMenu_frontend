@@ -9,6 +9,9 @@ import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../../auth/useAuth";
+import { Logout } from "../../components/Logout/Logout";
+import { useNavigate } from "react-router-dom";
 const URL = process.env.REACT_APP_URL;
 
 
@@ -17,14 +20,15 @@ export const Login = () => {
   const [loginError, showLoginError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const {register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+const auth = useAuth();
   const onSubmit = async(loginData, event) => {
+    auth.login(loginData)
     try {
       const login = await axios.post(`${URL}/login`, loginData);
       localStorage.setItem("userToken", JSON.stringify(login.data.token));
       localStorage.setItem("currentUser", JSON.stringify(login.data.user));
-
-
-      Swal.fire({
+      await Swal.fire({
         position: 'center',
         icon: 'success',
         title: `Bienvenido ${login.data.user.fullname}`,
@@ -33,7 +37,8 @@ export const Login = () => {
       }
       )
       event.target.reset()
-      window.location.assign(`http://localhost:3000/admin`)
+      {login.data.user.role !== 'ADMIN_ROLE'?navigate(`/`):
+      navigate(`/admin`)}
 
     } catch (error) {
       setErrorMsg(error.response.data.msg);
@@ -46,9 +51,13 @@ export const Login = () => {
         showConfirmButton: false,
         timer: 1500
       })
+      event.target.reset()
     }
 
-
+    function handleLogout() {
+      console.log('Logout');
+      auth.logout()
+  }
   }
   return (
     <>
@@ -65,6 +74,8 @@ export const Login = () => {
               </h1>
             </Container>
           </Col>
+     {auth.user ? 
+     <Logout onClick={() => auth.logout()}/> :
           <Col className="Col-Loginform" md={4}>
             <Container className="login-container ">
               <Form id="loginForm" onSubmit={handleSubmit(onSubmit)}>
@@ -96,7 +107,7 @@ export const Login = () => {
               </Form>
             </Container>
           </Col>
-        
+   }  
         </Row>
       </Container>
       <Footer />

@@ -14,17 +14,15 @@ import "./styles.css";
 const Header = () => {
   return (
     <>
-      <Navbar className="personalizedNavbar m-0 p-0" expand="lg">
+      <Navbar className="personalizedNavbar  p-0" expand="lg">
         <Container fluid>
-          <Navbar.Brand href="/" className="m-0 emenuLogo">
+          <Navbar.Brand href="/" className="m-0 p-0">
             <Image className="logo m-0" src={Logo} />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
             <Nav
-              className="me-auto "
-              style={{ maxHeight: "100px" }}
-              navbarScroll
+              className="me-auto my-2 my-lg-0"
             >
               <Nav.Link className="navbarColor" href="/">
                 Inicio

@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../auth/useAuth";
 import { Logout } from "../../components/Logout/Logout";
 import { useNavigate } from "react-router-dom";
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 const URL = process.env.REACT_APP_URL;
 
 
@@ -23,38 +24,38 @@ export const Login = () => {
   const navigate = useNavigate();
 const auth = useAuth();
   const onSubmit = async(loginData, event) => {
-    auth.login(loginData)
-    try {
-      const login = await axios.post(`${URL}/login`, loginData);
-      localStorage.setItem("userToken", JSON.stringify(login.data.token));
-      localStorage.setItem("currentUser", JSON.stringify(login.data.user));
-      await Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: `Bienvenido ${login.data.user.fullname}`,
-        showConfirmButton: false,
-        timer: 1500
-      }
-      )
-      event.target.reset()
-      {login.data.user.role !== 'ADMIN_ROLE'?navigate(`/`):
-      navigate(`/admin`)}
+   auth.login(loginData)
+    // try {
+    //   const login = await axios.post(`${URL}/login`, loginData);
+    //   localStorage.setItem("userToken", JSON.stringify(login.data.token));
+    //   localStorage.setItem("currentUser", JSON.stringify(login.data.user));
+    //   await Swal.fire({
+    //     position: 'center',
+    //     icon: 'success',
+    //     title: `Bienvenido ${login.data.user.fullname}`,
+    //     showConfirmButton: false,
+    //     timer: 1500
+    //   }
+    //   )
+    //   event.target.reset()
+    //   {login.data.user.role !== 'ADMIN_ROLE'?navigate(`/`):
+    //   navigate(`/admin`)}
 
-    } catch (error) {
-      setErrorMsg(error.response.data.msg);
-      showLoginError(true);
-      setTimeout(() => showLoginError(false), 2000);
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: `${error}`,
-        showConfirmButton: false,
-        timer: 1500
-      })
-      event.target.reset()
-    }
+    // } catch (error) {
+    //   setErrorMsg(error.response.data.msg);
+    //   showLoginError(true);
+    //   setTimeout(() => showLoginError(false), 2000);
+    //   Swal.fire({
+    //     position: 'center',
+    //     icon: 'error',
+    //     title: `${error}`,
+    //     showConfirmButton: false,
+    //     timer: 1500
+    //   })
+    //   event.target.reset()
+    // }
 
-    function handleLogout() {
+   function handleLogout() {
       console.log('Logout');
       auth.logout()
   }

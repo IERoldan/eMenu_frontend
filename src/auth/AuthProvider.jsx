@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const URL = process.env.REACT_APP_URL;
 
 export const AuthContext = createContext();
@@ -11,13 +12,22 @@ export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
     const [loginError, showLoginError] = useState(false)
     const [errorMsg, setErrorMsg] = useState('')
-    async function login(loginData) {
+    async function login(loginData,event) {
         try {
             const login = await axios.post(`${URL}/login`, loginData);
             localStorage.setItem('userToken', JSON.stringify(login.data.token));
             localStorage.setItem('currentUser', JSON.stringify(login.data.user));
             setUser(login.data.user)
-            navigate('/');
+            await Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `Bienvenido ${login.data.user.fullname}`,
+                showConfirmButton: false,
+                timer: 1500
+              })
+            event.target.reset()
+      {login.data.user.role !== 'ADMIN_ROLE'?navigate(`/`):
+      navigate(`/admin`)}
         } catch (error) {
             setErrorMsg(error.response.data.msg);
             showLoginError(true)

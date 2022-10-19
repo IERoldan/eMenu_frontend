@@ -60,7 +60,9 @@ const Body = () => {
                   <Card
                     key={item._id}
                     border="#edeef2"
-                    style={{ width: "auto" }}
+                    style={{ width: "auto",
+                            height:"51vh",        
+                    }}
                     className="card-items text-dark"
                   >
                     <Image
@@ -72,7 +74,7 @@ const Body = () => {
                     <p className="category-item">{item.category}</p>
                     <Card.Title className="item-name">{item.title}</Card.Title>
                     <p className="text-dark item-text">{item.description}</p>
-                    <p className="text-dark">${item.price}</p>
+                    <p className="text-dark price-card">${item.price}</p>
                     {isLogin == null ? (
                       <Button className="cardButton" href="/login">
                         Agregar
